@@ -1,0 +1,27 @@
+env:
+  browser: true
+  es2021: true
+  node: true
+extends:
+  - eslint:recommended
+  - plugin:react/recommended
+  - plugin:@typescript-eslint/recommended
+  - plugin:prettier/recommended
+parser: '@typescript-eslint/parser'
+parserOptions:
+  ecmaFeatures:
+    jsx: true
+  ecmaVersion: latest
+  sourceType: module
+plugins:
+  - import
+  - react
+  - '@typescript-eslint'
+  - prettier
+rules:
+  prettier/prettier: [2, { singleQuote: true }]
+  react/jsx-uses-react: 2
+  react/react-in-jsx-scope: 0
+  import/no-cycle: 2
+  import/no-named-export: 2
+  import/no-anonymous-default-export: 2
