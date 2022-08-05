@@ -4,4 +4,6 @@
 
 html, body, #__next {
   height: 100%;
+
+  @apply bg-slate-900 text-zinc-300;
 }

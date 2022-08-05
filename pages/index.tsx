@@ -1,4 +1,4 @@
-import GuessInput from '@components/GuessInput';
+import Game from '@components/Game';
 import Head from 'next/head';
 import { FC } from 'react';
 
@@ -14,9 +14,7 @@ const HomePage: FC = () => {
         <h1 className='font-bold text-4xl mb-2'>Pastle</h1>
         <p className='text-xl mb-2'>Adivinhe a comida</p>
       </header>
-      <main className='flex grow flex-col'>
-        <GuessInput />
-      </main>
+      <Game />
     </div>
   );
 };

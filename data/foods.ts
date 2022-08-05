@@ -20,6 +20,7 @@ const foods = [
       'azeite de oliva',
       'azeitona',
       'orégano',
+      'molho de tomate',
     ],
   },
   {
@@ -148,17 +149,6 @@ const foods = [
     ],
   },
   {
-    name: 'x-bacon',
-    ingredients: [
-      'carne bovina',
-      'queijo',
-      'pão',
-      'ketchup',
-      'mostarda',
-      'bacon',
-    ],
-  },
-  {
     name: 'feijoada',
     ingredients: [
       'feijão',
@@ -191,7 +181,7 @@ const foods = [
   },
   {
     name: 'chipa',
-    ingredients: ['farinha', 'queijo'],
+    ingredients: ['farinha', 'queijo', 'polvilho'],
   },
   {
     name: "fish n' chips",
@@ -257,7 +247,14 @@ const foods = [
   },
   {
     name: 'vinagrete',
-    ingredients: ['tomate', 'cebola', 'vinagre', 'azeite de oliva', 'pepino'],
+    ingredients: [
+      'tomate',
+      'cebola',
+      'vinagre',
+      'azeite de oliva',
+      'pepino',
+      'repolho',
+    ],
   },
   {
     name: 'empadinha de camarão',
@@ -379,6 +376,18 @@ const foods = [
       'ovo',
       'couve',
       'banana',
+    ],
+  },
+  { name: 'chucrute', ingredients: ['repolho', 'vinagre'] },
+  {
+    name: 'lasanha',
+    ingredients: [
+      'carne moída',
+      'molho de tomate',
+      'macarrão',
+      'presunto',
+      'queijo',
+      'molho branco',
     ],
   },
 ];
