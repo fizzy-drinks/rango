@@ -13,10 +13,17 @@
     "noEmit": true,
     "incremental": true,
     "esModuleInterop": true,
+    "moduleResolution": "node",
     "module": "esnext",
     "isolatedModules": true,
     "jsx": "preserve",
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
+    "strictNullChecks": true,
+    "paths": {
+      "@components/*": ["./components/*"],
+      "@data/*": ["./data/*"]
+    },
+    "baseUrl": "."
   },
   "include": [
     "next-env.d.ts",

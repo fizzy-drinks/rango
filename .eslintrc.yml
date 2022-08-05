@@ -7,6 +7,7 @@ extends:
   - plugin:react/recommended
   - plugin:@typescript-eslint/recommended
   - plugin:prettier/recommended
+  - plugin:import/recommended
 parser: '@typescript-eslint/parser'
 parserOptions:
   ecmaFeatures:
@@ -19,9 +20,11 @@ plugins:
   - '@typescript-eslint'
   - prettier
 rules:
-  prettier/prettier: [2, { singleQuote: true }]
+  prettier/prettier: [2, { singleQuote: true, jsxSingleQuote: true }]
   react/jsx-uses-react: 2
   react/react-in-jsx-scope: 0
+  import/no-unresolved: 0
   import/no-cycle: 2
   import/no-named-export: 2
   import/no-anonymous-default-export: 2
+  '@typescript-eslint/explicit-module-boundary-types': 2
