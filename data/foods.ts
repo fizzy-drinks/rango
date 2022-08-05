@@ -1,7 +1,16 @@
 const foods = [
   {
     name: 'baião de dois',
-    ingredients: ['arroz', 'feijão tropeiro', 'queijo', 'carne seca', 'farofa'],
+    ingredients: [
+      'arroz',
+      'feijão verde',
+      'cebola',
+      'coentro',
+      'mandioca',
+      'queijo',
+      'carne seca',
+      'farofa',
+    ],
   },
   {
     name: 'pizza de muçarela',
@@ -19,7 +28,15 @@ const foods = [
   },
   {
     name: 'pf de carne',
-    ingredients: ['arroz', 'feijão', 'carne bovina', 'batata frita', 'salada'],
+    ingredients: [
+      'arroz',
+      'feijão',
+      'carne bovina',
+      'batata frita',
+      'alface',
+      'tomate',
+      'cebola',
+    ],
   },
   {
     name: 'espaguete',
@@ -81,8 +98,46 @@ const foods = [
       'frango',
       'pão',
       'pão de alho',
-      'salada',
+      'alface',
+      'tomate',
+      'cebola',
       'farofa',
+    ],
+  },
+  {
+    name: 'canja de galinha',
+    ingredients: ['frango'],
+  },
+  {
+    name: 'caldo verde',
+    ingredients: ['couve', 'calabresa'],
+  },
+  {
+    name: 'cheeseburger',
+    ingredients: ['carne bovina', 'queijo', 'pão', 'ketchup', 'mostarda'],
+  },
+  {
+    name: 'x-salada',
+    ingredients: [
+      'carne bovina',
+      'queijo',
+      'pão',
+      'ketchup',
+      'mostarda',
+      'alface',
+      'tomate',
+      'cebola',
+    ],
+  },
+  {
+    name: 'x-bacon',
+    ingredients: [
+      'carne bovina',
+      'queijo',
+      'pão',
+      'ketchup',
+      'mostarda',
+      'bacon',
     ],
   },
 ];
