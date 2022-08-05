@@ -9,10 +9,14 @@ const GuessInput: FC = () => {
   const [selectedFood, setSelectedFood] = useState('');
   const [win, setWin] = useState(false);
   const suggestions = useMemo(() => {
-    if (!selectedFood) return [];
+    if (selectedFood.length < 2) return [];
 
     return foods
-      .filter((food) => food.name.includes(selectedFood))
+      .filter(
+        (food) =>
+          food.name.includes(selectedFood) &&
+          !guesses.find((g) => g.guess === food.name)
+      )
       .sort(
         (a, b) => a.name.indexOf(selectedFood) - b.name.indexOf(selectedFood)
       );
@@ -36,10 +40,27 @@ const GuessInput: FC = () => {
 
   return (
     <>
+      <ul className='grow'>
+        {guesses
+          .slice()
+          .reverse()
+          .map((guess) => (
+            <li key={guess.guess}>
+              {guess.guess}:
+              <ul>
+                {guess.ingredients.map((ing) => (
+                  <li key={ing.name}>
+                    {ing.correct ? '✔️' : '❌'} {ing.name}
+                  </li>
+                ))}
+              </ul>
+            </li>
+          ))}
+      </ul>
       <p>Tentativas: {guesses.length}</p>
       <ul>
         {suggestions
-          .slice()
+          .slice(0, 5)
           .reverse()
           .map((sug) => (
             <li key={sug.name}>
@@ -59,30 +80,13 @@ const GuessInput: FC = () => {
           ))}
       </ul>
       <input
-        placeholder='Insira uma comida'
+        placeholder='ex. pastel de frango'
         onChange={(e) => setSelectedFood(e.target.value)}
         onKeyDown={(e) => e.key === 'Enter' && guessFood(suggestions[0].name)}
         value={selectedFood}
         disabled={win}
       />
       {win && <p>Você venceu! 🎉</p>}
-      <ul>
-        {guesses
-          .slice()
-          .reverse()
-          .map((guess) => (
-            <li key={guess.guess}>
-              {guess.guess}:
-              <ul>
-                {guess.ingredients.map((ing) => (
-                  <li key={ing.name}>
-                    {ing.correct ? '✔️' : '❌'} {ing.name}
-                  </li>
-                ))}
-              </ul>
-            </li>
-          ))}
-      </ul>
     </>
   );
 };

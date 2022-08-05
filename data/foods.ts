@@ -167,6 +167,7 @@ const foods = [
       'calabresa',
       'carne bovina',
       'farofa',
+      'banana',
       'pimenta',
     ],
   },
@@ -350,6 +351,35 @@ const foods = [
   {
     name: 'frango assado',
     ingredients: ['frango', 'batata', 'farofa'],
+  },
+  {
+    name: 'pastel de frango',
+    ingredients: ['frango', 'farinha', 'queijo', 'azeitona'],
+  },
+  {
+    name: 'yakisoba',
+    ingredients: [
+      'frango',
+      'carne bovina',
+      'pimentão',
+      'acelga',
+      'cenoura',
+      'amendoim',
+      'cebola',
+    ],
+  },
+  {
+    name: 'virado à paulista',
+    ingredients: [
+      'feijão',
+      'cebola',
+      'farofa',
+      'carne bovina',
+      'calabresa',
+      'ovo',
+      'couve',
+      'banana',
+    ],
   },
 ];
 
