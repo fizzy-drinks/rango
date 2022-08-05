@@ -61,7 +61,16 @@ const foods = [
   },
   {
     name: 'strogonoff',
-    ingredients: ['frango', 'arroz', 'molho rosé', 'batata palha'],
+    ingredients: [
+      'frango',
+      'arroz',
+      'batata palha',
+      'creme de leite',
+      'ketchup',
+      'molho de tomate',
+      'mostarda',
+      'champignon',
+    ],
   },
   {
     name: 'tacos',
@@ -363,6 +372,7 @@ const foods = [
       'cenoura',
       'amendoim',
       'cebola',
+      'champignon',
     ],
   },
   {
