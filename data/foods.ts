@@ -79,7 +79,14 @@ const foods = [
   },
   {
     name: 'guacamole',
-    ingredients: ['abacate', 'tomate', 'cebola', 'alho', 'coentro', 'azeite'],
+    ingredients: [
+      'abacate',
+      'tomate',
+      'cebola',
+      'alho',
+      'coentro',
+      'azeite de oliva',
+    ],
   },
   {
     name: 'pastel de queijo',
@@ -139,6 +146,210 @@ const foods = [
       'mostarda',
       'bacon',
     ],
+  },
+  {
+    name: 'x-bacon',
+    ingredients: [
+      'carne bovina',
+      'queijo',
+      'pão',
+      'ketchup',
+      'mostarda',
+      'bacon',
+    ],
+  },
+  {
+    name: 'feijoada',
+    ingredients: [
+      'feijão',
+      'arroz',
+      'couve',
+      'calabresa',
+      'carne bovina',
+      'farofa',
+      'pimenta',
+    ],
+  },
+  {
+    name: 'bife a cavalo',
+    ingredients: ['carne bovina', 'ovo', 'arroz', 'feijão'],
+  },
+  {
+    name: 'frango à parmegiana',
+    ingredients: [
+      'frango',
+      'queijo',
+      'molho de tomate',
+      'arroz',
+      'batata frita',
+    ],
+  },
+  {
+    name: 'empadão',
+    ingredients: ['farinha', 'frango', 'creme de leite', 'azeitona'],
+  },
+  {
+    name: 'chipa',
+    ingredients: ['farinha', 'queijo'],
+  },
+  {
+    name: "fish n' chips",
+    ingredients: ['peixe', 'batata frita'],
+  },
+  {
+    name: 'hot roll',
+    ingredients: ['peixe', 'arroz', 'alga', 'massa', 'shoyu'],
+  },
+  {
+    name: 'frango xadrez',
+    ingredients: ['frango', 'pimentão', 'amendoim', 'tomate', 'shoyu', 'arroz'],
+  },
+  {
+    name: 'picadinho',
+    ingredients: [
+      'carne bovina',
+      'batata',
+      'cenoura',
+      'cheiro-verde',
+      'cebola',
+      'alho',
+    ],
+  },
+  {
+    name: 'pão de alho',
+    ingredients: ['pão', 'alho', 'farinha'],
+  },
+  {
+    name: 'pamonha',
+    ingredients: ['milho'],
+  },
+  {
+    name: 'curau',
+    ingredients: ['milho'],
+  },
+  {
+    name: 'pipoca',
+    ingredients: ['milho'],
+  },
+  {
+    name: 'polenta',
+    ingredients: ['fubá'],
+  },
+  {
+    name: 'fubá',
+    ingredients: ['milho'],
+  },
+  {
+    name: 'cuscuz paulista',
+    ingredients: ['farinha', 'mandioca', 'peixe', 'tomate', 'ovo', 'ervilha'],
+  },
+  {
+    name: 'hot dog (cachorro quente)',
+    ingredients: [
+      'salsicha',
+      'pão',
+      'ketchup',
+      'mostarda',
+      'purê de batata',
+      'vinagrete',
+    ],
+  },
+  {
+    name: 'vinagrete',
+    ingredients: ['tomate', 'cebola', 'vinagre', 'azeite de oliva', 'pepino'],
+  },
+  {
+    name: 'empadinha de camarão',
+    ingredients: ['farinha', 'camarão', 'creme de leite'],
+  },
+  {
+    name: 'coxinha',
+    ingredients: ['farinha', 'frango', 'queijo'],
+  },
+  {
+    name: 'acarajé',
+    ingredients: ['farinha', 'feijão', 'pimenta', 'cebola', 'azeite de dendê'],
+  },
+  {
+    name: 'bobó de camarão',
+    ingredients: [
+      'camarão',
+      'pirão de peixe',
+      'peixe',
+      'farinha',
+      'alho',
+      'mandioca',
+      'azeite de oliva',
+      'leite de coco',
+      'molho de tomate',
+      'azeite de dendê',
+    ],
+  },
+  {
+    name: 'tutu de feijão',
+    ingredients: ['feijão'],
+  },
+  {
+    name: 'tabule',
+    ingredients: [
+      'tomate',
+      'cebola',
+      'pepino',
+      'limão',
+      'azeite de oliva',
+      'trigo',
+      'hortelã',
+      'salsa',
+    ],
+  },
+  {
+    name: 'homus',
+    ingredients: ['grão-de-bico'],
+  },
+  {
+    name: 'feijão tropeiro',
+    ingredients: [
+      'feijão',
+      'carne bovina',
+      'óleo de soja',
+      'cebola',
+      'alho',
+      'ovo',
+      'cheiro-verde',
+    ],
+  },
+  {
+    name: 'moqueca',
+    ingredients: [
+      'peixe',
+      'lula',
+      'cebola',
+      'leite de coco',
+      'azeite de dendê',
+    ],
+  },
+  {
+    name: 'paella',
+    ingredients: [
+      'arroz',
+      'camarão',
+      'lula',
+      'polvo',
+      'mexilhões',
+      'alho-poró',
+      'tomate',
+      'açafrão',
+      'ervilha',
+      'salsinha',
+    ],
+  },
+  {
+    name: 'vaca atolada',
+    ingredients: ['tomate', 'mandioca', 'cheiro-verde', 'cebola', 'colorau'],
+  },
+  {
+    name: 'frango assado',
+    ingredients: ['frango', 'batata', 'farofa'],
   },
 ];
 
