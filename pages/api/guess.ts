@@ -5,13 +5,13 @@ import { NextApiHandler } from 'next';
 
 const handler: NextApiHandler<GuessResponse> = (req, res) => {
   if (req.method === 'POST') {
-    const { guess } = req.body as { guess: string };
+    const { guess } = req.body as { guess?: string };
 
     const guessedFood = foods.find(
-      (f) => f.name.toLowerCase() === guess.toLowerCase()
+      (f) => f.name.toLowerCase() === guess?.toLowerCase()
     );
 
-    if (!guessedFood) {
+    if (!guess || !guessedFood) {
       return res.send({ success: false, message: 'Not a valid food' });
     }
 
