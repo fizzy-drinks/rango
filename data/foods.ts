@@ -255,7 +255,15 @@ const foods = [
   },
   {
     name: 'acarajé',
-    ingredients: ['farinha', 'feijão', 'pimenta', 'cebola', 'azeite de dendê'],
+    ingredients: [
+      'feijão',
+      'pimenta',
+      'cebola',
+      'azeite de dendê',
+      'camarão',
+      'vinagrete',
+      'quiabo',
+    ],
   },
   {
     name: 'bobó de camarão',
