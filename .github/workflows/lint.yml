@@ -27,9 +27,14 @@ jobs:
           node-version: 16
 
       - name: Install deps
-        run: npm ci
+        run: npm i
 
-      - name: Run linters
-        uses: wearerequired/lint-action@v2
-        with:
-          eslint: true
+      - name: Run linter
+        run: npx eslint --fix .
+
+      - name: Commit changes
+        run: |
+          git config --global user.name 'Gabriel Chiconi'
+          git config --global user.email 'fizzy-drinks@users.noreply.github.com'
+          git commit -am "lint: fix files"
+          git push
