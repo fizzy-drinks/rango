@@ -25,6 +25,5 @@ rules:
   react/react-in-jsx-scope: 0
   import/no-unresolved: 0
   import/no-cycle: 2
-  import/no-named-export: 2
   import/no-anonymous-default-export: 2
   '@typescript-eslint/explicit-module-boundary-types': 2
