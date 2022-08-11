@@ -127,7 +127,7 @@ const foods = [
   },
   {
     name: 'caldo verde',
-    ingredients: ['couve', 'calabresa'],
+    ingredients: ['couve', 'calabresa', 'batata'],
   },
   {
     name: 'cheeseburger',
@@ -220,26 +220,6 @@ const foods = [
     ingredients: ['pão', 'alho', 'farinha'],
   },
   {
-    name: 'pamonha',
-    ingredients: ['milho'],
-  },
-  {
-    name: 'curau',
-    ingredients: ['milho'],
-  },
-  {
-    name: 'pipoca',
-    ingredients: ['milho'],
-  },
-  {
-    name: 'polenta',
-    ingredients: ['fubá'],
-  },
-  {
-    name: 'fubá',
-    ingredients: ['milho'],
-  },
-  {
     name: 'cuscuz paulista',
     ingredients: ['farinha', 'mandioca', 'peixe', 'tomate', 'ovo', 'ervilha'],
   },
@@ -293,10 +273,6 @@ const foods = [
     ],
   },
   {
-    name: 'tutu de feijão',
-    ingredients: ['feijão'],
-  },
-  {
     name: 'tabule',
     ingredients: [
       'tomate',
@@ -308,10 +284,6 @@ const foods = [
       'hortelã',
       'salsa',
     ],
-  },
-  {
-    name: 'homus',
-    ingredients: ['grão-de-bico'],
   },
   {
     name: 'feijão tropeiro',
@@ -398,6 +370,25 @@ const foods = [
       'presunto',
       'queijo',
       'molho branco',
+    ],
+  },
+  {
+    name: 'nhoque (gnocchi)',
+    ingredients: ['farinha', 'molho de tomate', 'batata', 'queijo'],
+  },
+  {
+    name: 'bife acebolado',
+    ingredients: ['carne bovina', 'cebola'],
+  },
+  {
+    name: 'arroz à grega',
+    ingredients: [
+      'arroz',
+      'pimentão',
+      'cenoura',
+      'alho',
+      'ervilha',
+      'uva-passa',
     ],
   },
 ];
