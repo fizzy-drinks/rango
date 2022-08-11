@@ -6,8 +6,8 @@ import clsx from 'clsx';
 import { motion } from 'framer-motion';
 import { FC, KeyboardEvent, useState } from 'react';
 
-const Game: FC = () => {
-  const [guesses, setGuesses] = useState<GuessResult[]>([]);
+const Game: FC<{ preloadGuesses: GuessResult[] }> = ({ preloadGuesses }) => {
+  const [guesses, setGuesses] = useState<GuessResult[]>(preloadGuesses);
   const [guessInputValue, setGuessInputValue] = useState('');
   const [win, setWin] = useState(false);
   const [suggestions, setSuggestions] = useState<typeof foods>([]);

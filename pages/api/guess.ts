@@ -1,7 +1,10 @@
 import foods from '@data/foods';
 import getWotd from '@data/services/getWotd';
+import StorageService from '@data/services/storage.service';
 import GuessResponse from '@data/types/GuessResponse';
+import GuessResult from '@data/types/GuessResult';
 import { NextApiHandler } from 'next';
+import { Cookie } from 'next-cookie';
 
 const handler: NextApiHandler<GuessResponse> = (req, res) => {
   if (req.method === 'POST') {
@@ -22,13 +25,19 @@ const handler: NextApiHandler<GuessResponse> = (req, res) => {
       correct: wotd.ingredients.includes(ing),
     }));
 
+    const cookie = Cookie.fromApiRoute(req, res);
+    const userGuesses = StorageService.getGuessesAtDate(new Date(), cookie);
+    const result: GuessResult = {
+      guess,
+      result: wotd.name === guess ? 'jackpot' : 'wrong',
+      ingredients,
+    };
+
+    StorageService.persist(new Date(), [...userGuesses, result], cookie);
+
     return res.send({
       success: true,
-      data: {
-        guess,
-        result: wotd.name === guess ? 'jackpot' : 'wrong',
-        ingredients,
-      },
+      data: result,
     });
   }
 
