@@ -26,12 +26,11 @@ const foods = [
   {
     name: 'pizza de calabresa',
     ingredients: [
-      'farinha',
-      'calabresa',
-      'cebola',
-      'azeitona',
-      'molho de tomate',
-      'queijo',
+      'farinha', 
+      'calabresa',       'cebola', 
+      'azeitona', 
+      'molho de tomate', 
+      'queijo'
     ],
   },
   {
