@@ -1,4 +1,5 @@
 import foods from '@data/foods';
+import getIngredientsResults from '@data/services/getIngredientsResults';
 import getWotd from '@data/services/getWotd';
 import StorageService from '@data/services/storage.service';
 import GuessResponse from '@data/types/GuessResponse';
@@ -20,10 +21,7 @@ const handler: NextApiHandler<GuessResponse> = (req, res) => {
 
     const wotd = getWotd();
 
-    const ingredients = guessedFood.ingredients.map((ing) => ({
-      name: ing,
-      correct: wotd.ingredients.includes(ing),
-    }));
+    const ingredients = getIngredientsResults(guessedFood, wotd);
 
     const cookie = Cookie.fromApiRoute(req, res);
     const userGuesses = StorageService.getGuessesAtDate(new Date(), cookie);
