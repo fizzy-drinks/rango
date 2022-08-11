@@ -34,4 +34,4 @@ jobs:
 
       - uses: stefanzweifel/git-auto-commit-action@v4
         with:
-          commit message: "lint files"
+          commit_message: "lint files"
