@@ -9,8 +9,9 @@ import { FC, KeyboardEvent, useState } from 'react';
 const Game: FC<{ preloadGuesses: GuessResult[] }> = ({ preloadGuesses }) => {
   const [guesses, setGuesses] = useState<GuessResult[]>(preloadGuesses);
   const [guessInputValue, setGuessInputValue] = useState('');
-  const [win, setWin] = useState(false);
   const [suggestions, setSuggestions] = useState<typeof foods>([]);
+
+  const win = guesses.some((g) => g.result === 'jackpot');
 
   const guessFood = async (guess: string) => {
     const { data: res } = await axios.post<GuessResponse>('/api/guess', {
@@ -24,10 +25,6 @@ const Game: FC<{ preloadGuesses: GuessResult[] }> = ({ preloadGuesses }) => {
     const guessResult = res.data;
     setGuesses((prev) => [...prev, guessResult]);
     setGuessInputValue('');
-
-    if (guessResult.result === 'jackpot') {
-      setWin(true);
-    }
   };
 
   const [activeSuggestion, setActiveSuggestion] = useState(0);
@@ -74,6 +71,18 @@ const Game: FC<{ preloadGuesses: GuessResult[] }> = ({ preloadGuesses }) => {
       event.preventDefault();
       keyActions.get(event.key)?.();
     }
+  };
+
+  const [shareTimeout, setShareTimeout] = useState(false);
+  const share = () => {
+    navigator.clipboard.writeText(
+      `venci o pastle de hoje em ${guesses.length} tentativas\n\nsua vez: ${location.href}`
+    );
+
+    setShareTimeout(true);
+    setTimeout(() => {
+      setShareTimeout(false);
+    }, 1000);
   };
 
   return (
@@ -138,7 +147,23 @@ const Game: FC<{ preloadGuesses: GuessResult[] }> = ({ preloadGuesses }) => {
         disabled={win}
       />
       <p>Tentativas: {guesses.length}</p>
-      {win && <p>Você venceu! 🎉</p>}
+      {win && (
+        <div className='absolute top-0 left-0 w-full h-full bg-white/40 flex items-center justify-center'>
+          <section className='bg-slate-600 rounded-md p-11 drop-shadow-md'>
+            <h2 className='text-4xl font-bold mb-3'>Você venceu! 🎉</h2>
+            <p className='text-xl mb-3'>Em {guesses.length} tentativas</p>
+            <aside className='mt-3'>
+              <button
+                className='px-2 rounded border bg-slate-600 hover:bg-slate-800 transition-all disabled:hover:bg-slate-600'
+                onClick={share}
+                disabled={shareTimeout}
+              >
+                {shareTimeout ? '📄 Copiado' : '🔗 Compartilhar'}
+              </button>
+            </aside>
+          </section>
+        </div>
+      )}
     </>
   );
 };
