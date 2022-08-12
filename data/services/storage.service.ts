@@ -1,6 +1,6 @@
 import foods from '@data/foods';
 import GuessResult from '@data/types/GuessResult';
-import { format } from 'date-fns';
+import { add, format } from 'date-fns';
 import { Cookie } from 'next-cookie';
 import getIngredientsResults from './getIngredientsResults';
 import getWotd from './getWotd';
@@ -35,6 +35,7 @@ const StorageService = {
     const dateKey = getDateKey(date);
     cookie.set(dateKey, dateGuesses.map((g) => g.guess).join(','), {
       path: '/',
+      expires: add(date, { days: 1 }),
     });
   },
 };
