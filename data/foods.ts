@@ -130,7 +130,7 @@ const foods = [
   },
   {
     name: 'canja de galinha',
-    ingredients: ['frango'],
+    ingredients: ['frango', 'arroz', 'cenoura', 'batata'],
   },
   {
     name: 'caldo verde',
