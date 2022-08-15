@@ -26,6 +26,7 @@ const HomePage: FC<HomePageProps> = ({ guesses }) => {
           title: 'Rango',
           description: 'Consegue adivinhar a comida de hoje?',
           site_name: 'Rango',
+          images: [{ url: 'https://rango.lins.dev/sandwich-emoji.png' }],
         }}
       />
       <header>
