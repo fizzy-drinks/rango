@@ -406,6 +406,15 @@ const foods = [
       'uva-passa',
     ],
   },
+  {
+    name: 'galinhada',
+    ingredients: [
+      'arroz',
+      'frango',
+      'cenoura',
+      'açafrão',
+    ],
+  },
 ];
 
 export default foods;
