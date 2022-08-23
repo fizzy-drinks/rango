@@ -32,11 +32,6 @@ jobs:
       - name: Run linter
         run: npx eslint --fix .
 
-      - name: Commit changes
-        run: |
-          git config --global user.name 'Gabriel Chiconi'
-          git config --global user.email 'fizzy-drinks@users.noreply.github.com'
-          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/$GITHUB_REPOSITORY
-          git checkout "${GITHUB_REF:11}"
-          git commit -am "lint: ${GITHUB_REF:11}"
-          git push
+      - uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: "lint files"

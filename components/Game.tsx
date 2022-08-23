@@ -76,7 +76,7 @@ const Game: FC<{ preloadGuesses: GuessResult[] }> = ({ preloadGuesses }) => {
   const [shareTimeout, setShareTimeout] = useState(false);
   const share = () => {
     navigator.clipboard.writeText(
-      `venci o pastle de hoje em ${guesses.length} tentativas\n\nsua vez: ${location.href}`
+      `achei o rango de hoje em ${guesses.length} tentativas\n\nsua vez: ${location.href}`
     );
 
     setShareTimeout(true);
