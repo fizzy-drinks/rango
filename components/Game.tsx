@@ -112,7 +112,7 @@ const Game: FC<{ preloadGuesses: GuessResult[] }> = ({ preloadGuesses }) => {
                     {ing.correct ? '✔️' : '❌'} {ing.name}
                   </motion.li>
                 ))}
-                {guess.missing && (
+                {guess.missing > 0 && (
                   <motion.li
                     key='missing ingredients'
                     animate={liAnimation}
