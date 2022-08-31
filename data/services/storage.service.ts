@@ -18,18 +18,16 @@ const StorageService = {
     const wotd = getWotd(date);
 
     return guesses
-      .map((guess) => {
-        const food = foods.find((f) => f.name === guess);
-        if (!food) return;
-
-        const results = getIngredientsResults(food, wotd);
-        return {
-          guess: food.name,
-          ingredients: results,
-          result: food.name === wotd.name ? 'jackpot' : 'wrong',
-        };
-      })
-      .filter((g): g is GuessResult => !!g);
+      .map((guess) => foods.find((f) => f.name === guess))
+      .filter((food): food is typeof foods[number] => !!food)
+      .map((food) => ({
+        guess: food.name,
+        ingredients: getIngredientsResults(food, wotd),
+        result: food.name === wotd.name ? 'jackpot' : 'wrong',
+        missing: wotd.ingredients.filter(
+          (ingredient) => !food.ingredients.includes(ingredient)
+        ).length,
+      }));
   },
   persist(date: Date, dateGuesses: GuessResult[], cookie: Cookie): void {
     const dateKey = getDateKey(date);
