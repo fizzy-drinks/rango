@@ -3,13 +3,15 @@ import GuessResponse from '@data/types/GuessResponse';
 import GuessResult from '@data/types/GuessResult';
 import axios from 'axios';
 import clsx from 'clsx';
-import { motion } from 'framer-motion';
+import { AnimatePresence, motion } from 'framer-motion';
 import { FC, KeyboardEvent, useState } from 'react';
 
 const Game: FC<{ preloadGuesses: GuessResult[] }> = ({ preloadGuesses }) => {
   const [guesses, setGuesses] = useState<GuessResult[]>(preloadGuesses);
   const [guessInputValue, setGuessInputValue] = useState('');
   const [suggestions, setSuggestions] = useState<typeof foods>([]);
+  const [winPanel, setWinPanel] = useState(true);
+  const toggleWinPanel = () => setWinPanel((p) => !p);
 
   const win = guesses.some((g) => g.result === 'jackpot');
 
@@ -189,21 +191,52 @@ sua vez: ${location.href}`
       />
       <p>Tentativas: {guesses.length}</p>
       {win && (
-        <div className='absolute top-0 left-0 w-full h-full bg-white/40 flex items-center justify-center'>
-          <section className='bg-slate-600 rounded-md p-11 drop-shadow-md'>
-            <h2 className='text-4xl font-bold mb-3'>Você venceu! 🎉</h2>
-            <p className='text-xl mb-3'>Em {guesses.length} tentativas</p>
-            <aside className='mt-3'>
+        <motion.div
+          layout
+          className={clsx(
+            'absolute bottom-0 left-0 w-full flex items-center justify-center',
+            winPanel ? 'h-full' : 'h-44'
+          )}
+        >
+          <div
+            className={clsx(
+              'absolute top-0 left-0 w-full h-full transition-all',
+              winPanel ? 'bg-white/40' : 'bg-slate-600'
+            )}
+          />
+          <motion.section
+            layoutId='win-panel'
+            className='relative bg-slate-600 rounded-md p-7'
+          >
+            <div className='flex justify-between items-start gap-2'>
+              <h2 className='text-3xl font-bold mb-3'>Você venceu! 🎉</h2>
               <button
-                className='px-2 rounded border bg-slate-600 hover:bg-slate-800 transition-all disabled:hover:bg-slate-600'
-                onClick={share}
-                disabled={shareTimeout}
+                className='text-slate-400 hover:text-white'
+                onClick={toggleWinPanel}
               >
-                {shareTimeout ? '📄 Copiado' : '🔗 Compartilhar'}
+                {winPanel ? <>&ndash;</> : <>+</>}
               </button>
-            </aside>
-          </section>
-        </div>
+            </div>
+            <p className='mb-3'>Em {guesses.length} tentativas</p>
+            <AnimatePresence>
+              {winPanel && (
+                <motion.aside
+                  animate={{ height: '1.5rem', opacity: 1 }}
+                  exit={{ height: 0, opacity: 0 }}
+                  className='mt-5'
+                >
+                  <button
+                    className='px-2 rounded border bg-slate-600 hover:bg-slate-800 transition-all disabled:hover:bg-slate-600'
+                    onClick={share}
+                    disabled={shareTimeout}
+                  >
+                    {shareTimeout ? '📄 Copiado' : '🔗 Compartilhar'}
+                  </button>
+                </motion.aside>
+              )}
+            </AnimatePresence>
+          </motion.section>
+        </motion.div>
       )}
     </>
   );
