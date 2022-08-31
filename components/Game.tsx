@@ -74,9 +74,31 @@ const Game: FC<{ preloadGuesses: GuessResult[] }> = ({ preloadGuesses }) => {
   };
 
   const [shareTimeout, setShareTimeout] = useState(false);
-  const share = () => {
+  const share = async () => {
+    const wotd = guesses.find((g) => g.result === 'jackpot');
+    if (!wotd) throw new Error('Cannot share before winning!');
+
+    const guessAsText = (guess: GuessResult) => {
+      if (guess.result === 'jackpot') return '🟦';
+
+      const correct = guess.ingredients.filter((ing) => ing.correct).length;
+      const correctRatio = correct / (correct + guess.missing);
+
+      return correctRatio >= 0.75
+        ? '🟩'
+        : correctRatio >= 0.5
+        ? '🟨'
+        : correctRatio >= 0.25
+        ? '🟧'
+        : '🟥';
+    };
+
     navigator.clipboard.writeText(
-      `achei o rango de hoje em ${guesses.length} tentativas\n\nsua vez: ${location.href}`
+      `achei o rango de hoje em ${guesses.length} tentativas
+
+${guesses.map(guessAsText).join('')}
+
+sua vez: ${location.href}`
     );
 
     setShareTimeout(true);
