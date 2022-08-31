@@ -561,10 +561,10 @@ const foods: {
   {
     name: 'galinhada',
     ingredients: [
-      'arroz',
-      'frango',
-      'cenoura',
-      'açafrão',
+      Ingredient.ARROZ,
+      Ingredient.FRANGO,
+      Ingredient.CENOURA,
+      Ingredient.AÇAFRÃO,
     ],
   },
 ];
