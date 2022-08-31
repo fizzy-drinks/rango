@@ -85,6 +85,8 @@ const Game: FC<{ preloadGuesses: GuessResult[] }> = ({ preloadGuesses }) => {
     }, 1000);
   };
 
+  const liAnimation = { height: ['0', '0', '1.5em'] };
+
   return (
     <>
       <ul className='grow overflow-auto flex flex-wrap items-start gap-1'>
@@ -104,12 +106,21 @@ const Game: FC<{ preloadGuesses: GuessResult[] }> = ({ preloadGuesses }) => {
                 {guess.ingredients.map((ing) => (
                   <motion.li
                     key={ing.name}
-                    animate={{ height: ['0', '0', '1.5em'] }}
+                    animate={liAnimation}
                     className='overflow-hidden'
                   >
                     {ing.correct ? '✔️' : '❌'} {ing.name}
                   </motion.li>
                 ))}
+                {guess.missing && (
+                  <motion.li
+                    key='missing ingredients'
+                    animate={liAnimation}
+                    className='overflow-hidden text-sm text-right mt-1 text-slate-500 font-semibold'
+                  >
+                    +{guess.missing}
+                  </motion.li>
+                )}
               </ul>
             </motion.li>
           ))}

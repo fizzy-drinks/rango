@@ -20,8 +20,10 @@ const handler: NextApiHandler<GuessResponse> = (req, res) => {
     }
 
     const wotd = getWotd();
-
     const ingredients = getIngredientsResults(guessedFood, wotd);
+    const missing = wotd.ingredients.filter(
+      (ingredient) => !guessedFood.ingredients.includes(ingredient)
+    ).length;
 
     const cookie = Cookie.fromApiRoute(req, res);
     const userGuesses = StorageService.getGuessesAtDate(new Date(), cookie);
@@ -29,6 +31,7 @@ const handler: NextApiHandler<GuessResponse> = (req, res) => {
       guess,
       result: wotd.name === guess ? 'jackpot' : 'wrong',
       ingredients,
+      missing,
     };
 
     StorageService.persist(new Date(), [...userGuesses, result], cookie);
