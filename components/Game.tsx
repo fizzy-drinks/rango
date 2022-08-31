@@ -73,24 +73,21 @@ const Game: FC<{ preloadGuesses: GuessResult[] }> = ({ preloadGuesses }) => {
     }
   };
 
+  const correctRatio = (guess: GuessResult) => {
+    const correct = guess.ingredients.filter((ing) => ing.correct).length;
+    return correct / (correct + guess.missing);
+  };
+
   const [shareTimeout, setShareTimeout] = useState(false);
   const share = async () => {
     const wotd = guesses.find((g) => g.result === 'jackpot');
     if (!wotd) throw new Error('Cannot share before winning!');
 
     const guessAsText = (guess: GuessResult) => {
-      if (guess.result === 'jackpot') return '🟦';
+      if (guess.result === 'jackpot') return '🟩';
 
-      const correct = guess.ingredients.filter((ing) => ing.correct).length;
-      const correctRatio = correct / (correct + guess.missing);
-
-      return correctRatio >= 0.75
-        ? '🟩'
-        : correctRatio >= 0.5
-        ? '🟨'
-        : correctRatio >= 0.25
-        ? '🟧'
-        : '🟥';
+      const r = correctRatio(guess);
+      return r >= 0.5 ? '🟨' : r > 0 ? '🟧' : '🟥';
     };
 
     navigator.clipboard.writeText(
@@ -111,42 +108,53 @@ sua vez: ${location.href}`
 
   return (
     <>
-      <ul className='grow overflow-auto flex flex-wrap items-start gap-1'>
-        {guesses
-          .slice()
-          .reverse()
-          .map((guess) => (
-            <motion.li
-              key={guess.guess}
-              layoutId={guess.guess}
-              className='block p-2 border border-slate-800'
-            >
-              <span className='font-semibold uppercase text-sm text-slate-400'>
-                {guess.guess}
-              </span>
-              <ul>
-                {guess.ingredients.map((ing) => (
-                  <motion.li
-                    key={ing.name}
-                    animate={liAnimation}
-                    className='overflow-hidden'
-                  >
-                    {ing.correct ? '✔️' : '❌'} {ing.name}
-                  </motion.li>
-                ))}
+      <div className='grow overflow-auto'>
+        <ul className='flex flex-wrap items-stretch gap-1'>
+          {guesses
+            .slice()
+            .reverse()
+            .map((guess) => (
+              <motion.li
+                key={guess.guess}
+                layoutId={guess.guess}
+                className='flex flex-col p-2 border border-slate-800 w-52'
+              >
+                <span className='font-semibold uppercase text-sm text-slate-400'>
+                  {guess.guess}
+                </span>
+                <ul className='grow'>
+                  {guess.ingredients.map((ing) => (
+                    <motion.li
+                      key={ing.name}
+                      animate={liAnimation}
+                      className='overflow-hidden'
+                    >
+                      {ing.correct ? '✔️' : '❌'} {ing.name}
+                    </motion.li>
+                  ))}
+                </ul>
                 {guess.missing > 0 && (
-                  <motion.li
-                    key='missing ingredients'
-                    animate={liAnimation}
-                    className='overflow-hidden text-sm text-right mt-1 text-slate-500 font-semibold'
-                  >
+                  <div className='text-sm text-right mt-1 text-slate-500 font-semibold'>
                     +{guess.missing}
-                  </motion.li>
+                  </div>
                 )}
-              </ul>
-            </motion.li>
-          ))}
-      </ul>
+                <div
+                  className={clsx(
+                    'block w-100 border-t-2 mt-2',
+                    ((r) =>
+                      r === 1
+                        ? 'border-green-300'
+                        : r >= 0.5
+                        ? 'border-yellow-300'
+                        : r > 0
+                        ? 'border-orange-300'
+                        : 'border-red-300')(correctRatio(guess))
+                  )}
+                />
+              </motion.li>
+            ))}
+        </ul>
+      </div>
       <ul>
         {suggestions.map((sug, i) => (
           <motion.li key={sug.name} layoutId={sug.name}>
