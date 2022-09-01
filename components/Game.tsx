@@ -131,55 +131,57 @@ sua vez: ${location.href}`
   const liAnimation = { height: ['0', '0', '1.5em'] };
 
   return (
-    <Twemoji>
+    <>
       <div className='grow overflow-auto'>
-        <ul className='flex flex-wrap items-stretch gap-1'>
-          {guesses
-            .slice()
-            .reverse()
-            .map((guess) => (
-              <motion.li
-                key={guess.guess}
-                layoutId={guess.guess}
-                className='flex flex-col p-2 border border-slate-800 w-52'
-              >
-                <span className='font-semibold uppercase text-sm text-slate-400'>
-                  {guess.guess}
-                </span>
-                <ul className='grow'>
-                  {guess.ingredients.map((ing) => (
-                    <motion.li
-                      key={ing.name}
-                      animate={liAnimation}
-                      className='overflow-hidden'
-                    >
-                      {ing.correct ? '✔️' : '❌'} {ing.name}
-                    </motion.li>
-                  ))}
-                </ul>
-                {guess.missing > 0 && (
-                  <div className='text-sm text-right mt-1 text-slate-500 font-semibold'>
-                    +{guess.missing}
-                  </div>
-                )}
-                <div
-                  className={clsx(
-                    'block w-100 border-t-2 mt-2',
-                    ((r) =>
-                      r === 1
-                        ? 'border-green-300'
-                        : r >= 0.5
-                        ? 'border-yellow-300'
-                        : r > 0
-                        ? 'border-orange-300'
-                        : 'border-red-300')(correctRatio(guess))
+        <Twemoji>
+          <ul className='flex flex-wrap items-stretch gap-1'>
+            {guesses
+              .slice()
+              .reverse()
+              .map((guess) => (
+                <motion.li
+                  key={guess.guess}
+                  layoutId={guess.guess}
+                  className='flex flex-col p-2 border border-slate-800 w-52'
+                >
+                  <span className='font-semibold uppercase text-sm text-slate-400'>
+                    {guess.guess}
+                  </span>
+                  <ul className='grow'>
+                    {guess.ingredients.map((ing) => (
+                      <motion.li
+                        key={ing.name}
+                        animate={liAnimation}
+                        className='overflow-hidden'
+                      >
+                        {ing.correct ? '✔️' : '❌'} {ing.name}
+                      </motion.li>
+                    ))}
+                  </ul>
+                  {guess.missing > 0 && (
+                    <div className='text-sm text-right mt-1 text-slate-500 font-semibold'>
+                      +{guess.missing}
+                    </div>
                   )}
-                />
-              </motion.li>
-            ))}
-        </ul>
+                  <div
+                    className={clsx(
+                      'block w-100 border-t-2 mt-2',
+                      ((r) =>
+                        r === 1
+                          ? 'border-green-300'
+                          : r >= 0.5
+                          ? 'border-yellow-300'
+                          : r > 0
+                          ? 'border-orange-300'
+                          : 'border-red-300')(correctRatio(guess))
+                    )}
+                  />
+                </motion.li>
+              ))}
+          </ul>
+        </Twemoji>
       </div>
-      <ul>
+      <ul className='w-full'>
         {suggestions.map((sug, i) => (
           <motion.li key={sug.name} layoutId={sug.name}>
             <button
@@ -234,34 +236,36 @@ sua vez: ${location.href}`
             layoutId='win-panel'
             className='relative bg-slate-600 rounded-md p-7 w-96'
           >
-            <div className='flex justify-between items-start gap-2'>
-              <h2 className='text-3xl font-bold mb-3'>Você venceu! 🎉</h2>
-              <button
-                className='text-slate-400 hover:text-white'
-                onClick={toggleWinPanel}
-              >
-                {winPanel ? <>&ndash;</> : <>+</>}
-              </button>
-            </div>
-            <p className='mb-3'>Em {guesses.length} tentativas</p>
-            <AnimatePresence>
-              {winPanel && (
-                <motion.aside
-                  initial={{ height: 0, opacity: 0 }}
-                  animate={{ height: '1.5rem', opacity: 1 }}
-                  exit={{ height: 0, opacity: 0 }}
-                  className='mt-3 text-sm'
+            <Twemoji>
+              <div className='flex justify-between items-start gap-2'>
+                <h2 className='text-3xl font-bold mb-3'>Você venceu! 🎉</h2>
+                <button
+                  className='text-slate-400 hover:text-white'
+                  onClick={toggleWinPanel}
                 >
-                  <Button
-                    className='text-sm'
-                    onClick={share}
-                    disabled={shareTimeout}
+                  {winPanel ? <>&ndash;</> : <>+</>}
+                </button>
+              </div>
+              <p className='mb-3'>Em {guesses.length} tentativas</p>
+              <AnimatePresence>
+                {winPanel && (
+                  <motion.aside
+                    initial={{ height: 0, opacity: 0 }}
+                    animate={{ height: '1.5rem', opacity: 1 }}
+                    exit={{ height: 0, opacity: 0 }}
+                    className='mt-3 text-sm'
                   >
-                    {shareTimeout ? '📄 Copiado' : '🔗 Compartilhar'}
-                  </Button>
-                </motion.aside>
-              )}
-            </AnimatePresence>
+                    <Button
+                      className='text-sm'
+                      onClick={share}
+                      disabled={shareTimeout}
+                    >
+                      {shareTimeout ? '📄 Copiado' : '🔗 Compartilhar'}
+                    </Button>
+                  </motion.aside>
+                )}
+              </AnimatePresence>
+            </Twemoji>
           </motion.section>
           <motion.div
             layoutId='links'
@@ -289,7 +293,7 @@ sua vez: ${location.href}`
           </motion.div>
         </motion.div>
       )}
-    </Twemoji>
+    </>
   );
 };
 
