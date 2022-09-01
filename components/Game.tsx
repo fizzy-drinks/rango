@@ -4,7 +4,29 @@ import GuessResult from '@data/types/GuessResult';
 import axios from 'axios';
 import clsx from 'clsx';
 import { AnimatePresence, motion } from 'framer-motion';
-import { FC, KeyboardEvent, useState } from 'react';
+import {
+  AnchorHTMLAttributes,
+  ButtonHTMLAttributes,
+  FC,
+  KeyboardEvent,
+  useState,
+} from 'react';
+import { FaDiscord, FaGithubAlt } from 'react-icons/fa';
+import Twemoji from 'react-twemoji';
+
+const Button: FC<ButtonHTMLAttributes<HTMLButtonElement>> = (props) => (
+  <button
+    {...props}
+    className='px-2 mr-2 text-sm inline-block h-8 rounded border bg-slate-600 hover:bg-slate-800 transition-all disabled:hover:bg-slate-600'
+  />
+);
+
+const InlineLink: FC<AnchorHTMLAttributes<HTMLAnchorElement>> = (props) => (
+  <span
+    {...props}
+    className='cursor-pointer drop-shadow-sm text-slate-100 hover:text-slate-300'
+  />
+);
 
 const Game: FC<{ preloadGuesses: GuessResult[] }> = ({ preloadGuesses }) => {
   const [guesses, setGuesses] = useState<GuessResult[]>(preloadGuesses);
@@ -109,7 +131,7 @@ sua vez: ${location.href}`
   const liAnimation = { height: ['0', '0', '1.5em'] };
 
   return (
-    <>
+    <Twemoji>
       <div className='grow overflow-auto'>
         <ul className='flex flex-wrap items-stretch gap-1'>
           {guesses
@@ -181,32 +203,36 @@ sua vez: ${location.href}`
           </motion.li>
         ))}
       </ul>
-      <input
-        className='p-1 bg-slate-50 text-slate-900 text-sm text-semibold'
-        placeholder='ex. pastel de frango'
-        onChange={(e) => updateGuess(e.target.value)}
-        onKeyDown={kbdAction}
-        value={guessInputValue}
-        disabled={win}
-      />
-      <p>Tentativas: {guesses.length}</p>
+      {!win && (
+        <>
+          <input
+            className='p-1 bg-slate-50 text-slate-900 text-sm text-semibold'
+            placeholder='ex. pastel de frango'
+            onChange={(e) => updateGuess(e.target.value)}
+            onKeyDown={kbdAction}
+            value={guessInputValue}
+            disabled={win}
+          />
+          <p>Tentativas: {guesses.length}</p>
+        </>
+      )}
       {win && (
         <motion.div
           layout
           className={clsx(
             'absolute bottom-0 left-0 w-full flex items-center justify-center',
-            winPanel ? 'h-full' : 'h-44'
+            winPanel ? 'h-full' : 'h-36'
           )}
         >
           <div
             className={clsx(
               'absolute top-0 left-0 w-full h-full transition-all',
-              winPanel ? 'bg-white/40' : 'bg-slate-600'
+              winPanel ? 'bg-slate-600/40' : 'bg-slate-600'
             )}
           />
           <motion.section
             layoutId='win-panel'
-            className='relative bg-slate-600 rounded-md p-7'
+            className='relative bg-slate-600 rounded-md p-7 w-96'
           >
             <div className='flex justify-between items-start gap-2'>
               <h2 className='text-3xl font-bold mb-3'>Você venceu! 🎉</h2>
@@ -221,24 +247,49 @@ sua vez: ${location.href}`
             <AnimatePresence>
               {winPanel && (
                 <motion.aside
+                  initial={{ height: 0, opacity: 0 }}
                   animate={{ height: '1.5rem', opacity: 1 }}
                   exit={{ height: 0, opacity: 0 }}
-                  className='mt-5'
+                  className='mt-3 text-sm'
                 >
-                  <button
-                    className='px-2 rounded border bg-slate-600 hover:bg-slate-800 transition-all disabled:hover:bg-slate-600'
+                  <Button
+                    className='text-sm'
                     onClick={share}
                     disabled={shareTimeout}
                   >
                     {shareTimeout ? '📄 Copiado' : '🔗 Compartilhar'}
-                  </button>
+                  </Button>
                 </motion.aside>
               )}
             </AnimatePresence>
           </motion.section>
+          <motion.div
+            layoutId='links'
+            className='absolute bottom-0 right-0 m-3'
+          >
+            <a
+              href='https://discord.gg/bJ7S3BbTAB'
+              target='_blank'
+              rel='noreferrer'
+            >
+              <InlineLink>
+                <FaDiscord /> Discord
+              </InlineLink>
+            </a>{' '}
+            |{' '}
+            <a
+              href='https://github.com/fizzy-drinks/rango'
+              target='_blank'
+              rel='noreferrer'
+            >
+              <InlineLink>
+                <FaGithubAlt /> Fonte
+              </InlineLink>
+            </a>
+          </motion.div>
         </motion.div>
       )}
-    </>
+    </Twemoji>
   );
 };
 

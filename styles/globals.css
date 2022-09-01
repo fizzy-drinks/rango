@@ -7,3 +7,11 @@ html, body, #__next {
 
   @apply bg-slate-900 text-zinc-300;
 }
+
+.emoji {
+  height: 1em;
+}
+
+svg, img {
+  display: inline-block;
+}
