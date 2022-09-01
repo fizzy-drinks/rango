@@ -7,6 +7,12 @@ const handler: NextApiHandler<ApiResponse<{ date: Date; wotd: string }[]>> = (
   req,
   res
 ) => {
+  if (process.env.NODE_ENV !== 'development') {
+    return res
+      .status(400)
+      .send({ success: false, message: 'Only available in local mode' });
+  }
+
   if (req.method === 'GET') {
     return res.send({
       success: true,
