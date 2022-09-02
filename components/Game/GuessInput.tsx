@@ -49,27 +49,21 @@ const GuessInput: FC<{
   };
 
   const kbdAction = (event: KeyboardEvent<HTMLInputElement>) => {
-    const keyActions = new Map<string, () => void>([
-      ['Enter', () => guessFood(suggestions[activeSuggestion]?.name)],
-      [
-        'ArrowUp',
-        () =>
-          setActiveSuggestion((prev) =>
-            prev ? prev - 1 : suggestions.length - 1
-          ),
-      ],
-      [
-        'ArrowDown',
-        () =>
-          setActiveSuggestion((prev) =>
-            prev === suggestions.length - 1 ? 0 : prev + 1
-          ),
-      ],
-    ]);
+    const keyActions: Record<string, () => void> = {
+      Enter: () => guessFood(suggestions[activeSuggestion]?.name),
+      ArrowUp: () =>
+        setActiveSuggestion((prev) =>
+          prev ? prev - 1 : suggestions.length - 1
+        ),
+      ArrowDown: () =>
+        setActiveSuggestion((prev) =>
+          prev === suggestions.length - 1 ? 0 : prev + 1
+        ),
+    };
 
-    if (keyActions.has(event.key)) {
+    if (keyActions[event.key]) {
       event.preventDefault();
-      keyActions.get(event.key)?.();
+      keyActions[event.key]();
     }
   };
 
