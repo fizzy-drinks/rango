@@ -5,6 +5,7 @@ import axios from 'axios';
 import clsx from 'clsx';
 import { motion } from 'framer-motion';
 import { FC, KeyboardEvent, useState } from 'react';
+import trackEvent from 'helpers/trackEvent';
 
 const GuessInput: FC<{
   guesses: GuessResult[];
@@ -40,6 +41,14 @@ const GuessInput: FC<{
     });
 
     if (!res.success) return;
+
+    trackEvent({
+      event_type: 'game-interaction',
+      metadata: {
+        interactionType: 'guess',
+        value: res.data,
+      },
+    });
 
     setSuggestions([]);
 

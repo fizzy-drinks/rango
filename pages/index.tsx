@@ -1,28 +1,22 @@
-import axios from 'axios';
 import Rango from 'components/Game/Rango';
 import StorageService from 'data/services/storage.service';
 import GuessResult from 'data/types/GuessResult';
+import trackEvent from 'helpers/trackEvent';
 import { GetServerSideProps } from 'next';
 import { useCookie } from 'next-cookie';
 import { NextSeo } from 'next-seo';
-import { FC } from 'react';
-import { v4 } from 'uuid';
-import { AEventsPayload } from './api/aevents';
+import { FC, useEffect } from 'react';
 
 type HomePageProps = { guesses: GuessResult[] };
 
-if (process.env.NODE_ENV === 'production' && typeof window !== 'undefined') {
-  const sessionId = sessionStorage.getItem('sessionId') || v4();
-  sessionStorage.setItem('sessionId', sessionId);
-  const payload: AEventsPayload = {
-    session_id: v4(),
-    event_type: 'impression',
-    metadata: {},
-  };
-  axios.post('/api/aevents', payload);
-}
-
 const HomePage: FC<HomePageProps> = ({ guesses }) => {
+  useEffect(() => {
+    trackEvent({
+      event_type: 'impression',
+      metadata: {},
+    });
+  }, []);
+
   return (
     <div className='mx-auto max-w-3xl h-full max-h-4xl p-3 flex flex-col'>
       <NextSeo

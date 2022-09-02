@@ -1,4 +1,3 @@
-import foods from 'data/foods';
 import getDbClient from 'data/services/getDbClient';
 import ipgeo from 'data/services/ipgeo';
 import ApiResponse from 'data/types/ApiResponse';
@@ -31,32 +30,32 @@ type SyntheticAnalyticsEvent<
   date: Date;
 };
 
-type AnalyticsEvent =
-  | SyntheticAnalyticsEvent<'impression', Record<string, never>>
-  | SyntheticAnalyticsEvent<
+type AnalyticsEvent<T extends EventType = EventType> = T extends 'impression'
+  ? SyntheticAnalyticsEvent<'impression', Record<string, never>>
+  : T extends 'game-interaction'
+  ? SyntheticAnalyticsEvent<
       'game-interaction',
       {
         interactionType: 'guess';
-        value: { guess: typeof foods[number]; result: GuessResult };
+        value: GuessResult;
       }
-    >;
+    >
+  : never;
 
-export type AEventsPayload<T extends AnalyticsEvent = AnalyticsEvent> = {
+export type AEventsPayload<T extends EventType = EventType> = {
   session_id: string;
-  event_type: T['event_type'];
-  metadata: T['metadata']['custom'];
+  event_type: T;
+  metadata: AnalyticsEvent<T>['metadata']['custom'];
 };
 
-type AEventInsertArgs<T extends AnalyticsEvent = AnalyticsEvent> = [
-  string,
-  T['event_type'],
-  AnalyticsEventMetadata<T['metadata']['custom']>,
-  Date
-];
+type AEventInsertArgs<
+  E extends EventType,
+  T extends AnalyticsEvent = AnalyticsEvent<E>
+> = [string, E, AnalyticsEventMetadata<T['metadata']['custom']>, Date];
 
 const handler: NextApiHandler<
   ApiResponse<{ aevents: AnalyticsEvent[] }>
-> = async <T extends AnalyticsEvent>(req, res) => {
+> = async <E extends EventType, T extends AnalyticsEvent<E>>(req, res) => {
   if (req.method !== 'POST') {
     return res
       .status(405)
@@ -67,7 +66,7 @@ const handler: NextApiHandler<
     session_id,
     event_type,
     metadata: customMetadata,
-  }: Partial<AEventsPayload<T>> = req.body;
+  }: Partial<AEventsPayload<E>> = req.body;
 
   if (!session_id || !event_type || !customMetadata) {
     return res.status(400).send({
@@ -96,7 +95,7 @@ const handler: NextApiHandler<
     },
   };
 
-  const { rows: aevents } = await db.query<T, AEventInsertArgs<T>>(
+  const { rows: aevents } = await db.query<T, AEventInsertArgs<E>>(
     `insert into aevents (session_id, event_type, metadata, date)
     values ($1, $2, $3, $4)
     returning *`,
