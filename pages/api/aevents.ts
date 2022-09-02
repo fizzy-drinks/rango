@@ -88,7 +88,7 @@ const handler: NextApiHandler<
       city,
       latitude,
       longitude,
-    } = await ipgeo(req.socket.remoteAddress || '');
+    } = await ipgeo(req.headers['x-forwarded-for']?.toString() || '');
     const metadata: AnalyticsEventMetadata<T['metadata']['custom']> = {
       custom: customMetadata,
       geo: {
