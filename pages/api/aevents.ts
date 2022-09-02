@@ -1,23 +1,9 @@
 import getDbClient from 'data/services/getDbClient';
-import ipgeo from 'data/services/ipgeo';
 import ApiResponse from 'data/types/ApiResponse';
 import GuessResult from 'data/types/GuessResult';
 import { NextApiHandler, NextApiRequest, NextApiResponse } from 'next';
 
 type EventType = 'impression' | 'game-interaction';
-
-type AnalyticsEventMetadata<T = unknown> = {
-  custom: T;
-  geo: {
-    country: string;
-    province: string;
-    city: string;
-    coordinates: {
-      lat: number;
-      lng: number;
-    };
-  };
-};
 
 type SyntheticAnalyticsEvent<
   T extends EventType,
@@ -26,7 +12,7 @@ type SyntheticAnalyticsEvent<
   id: number;
   session_id: string;
   event_type: T;
-  metadata: AnalyticsEventMetadata<M>;
+  metadata: M;
   date: Date;
 };
 
@@ -45,13 +31,13 @@ type AnalyticsEvent<T extends EventType = EventType> = T extends 'impression'
 export type AEventsPayload<T extends EventType = EventType> = {
   session_id: string;
   event_type: T;
-  metadata: AnalyticsEvent<T>['metadata']['custom'];
+  metadata: AnalyticsEvent<T>['metadata'];
 };
 
 type AEventInsertArgs<
   E extends EventType,
   T extends AnalyticsEvent = AnalyticsEvent<E>
-> = [string, E, AnalyticsEventMetadata<T['metadata']['custom']>, Date];
+> = [string, E, T['metadata'], Date];
 
 const handler: NextApiHandler<
   ApiResponse<{ aevents: AnalyticsEvent[] }>
@@ -65,13 +51,10 @@ const handler: NextApiHandler<
       .send({ success: false, message: 'Method not allowed' });
   }
 
-  const {
-    session_id,
-    event_type,
-    metadata: customMetadata,
-  }: Partial<AEventsPayload<E>> = req.body;
+  const { session_id, event_type, metadata }: Partial<AEventsPayload<E>> =
+    req.body;
 
-  if (!session_id || !event_type || !customMetadata) {
+  if (!session_id || !event_type || !metadata) {
     return res.status(400).send({
       success: false,
       message: 'Missing rqeuired request arguments!',
@@ -79,25 +62,6 @@ const handler: NextApiHandler<
   }
 
   const db = await getDbClient();
-
-  const {
-    country_code2: country = '??',
-    state_prov: province = 'Unknown',
-    city = 'Unknown',
-    latitude = '0',
-    longitude = '0',
-  }: Partial<Awaited<ReturnType<typeof ipgeo>>> = await ipgeo(
-    req.headers['x-forwarded-for']?.toString() || ''
-  ).catch(() => ({}));
-  const metadata: AnalyticsEventMetadata<T['metadata']['custom']> = {
-    custom: customMetadata,
-    geo: {
-      country,
-      province,
-      city,
-      coordinates: { lat: Number(latitude), lng: Number(longitude) },
-    },
-  };
 
   const { rows: aevents } = await db.query<T, AEventInsertArgs<E>>(
     `insert into aevents (session_id, event_type, metadata, date)
