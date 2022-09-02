@@ -2,7 +2,7 @@ import getDbClient from 'data/services/getDbClient';
 import ipgeo from 'data/services/ipgeo';
 import ApiResponse from 'data/types/ApiResponse';
 import GuessResult from 'data/types/GuessResult';
-import { NextApiHandler } from 'next';
+import { NextApiHandler, NextApiRequest, NextApiResponse } from 'next';
 
 type EventType = 'impression' | 'game-interaction';
 
@@ -55,7 +55,10 @@ type AEventInsertArgs<
 
 const handler: NextApiHandler<
   ApiResponse<{ aevents: AnalyticsEvent[] }>
-> = async <E extends EventType, T extends AnalyticsEvent<E>>(req, res) => {
+> = async <E extends EventType, T extends AnalyticsEvent<E>>(
+  req: NextApiRequest,
+  res: NextApiResponse<ApiResponse<{ aevents: AnalyticsEvent[] }>>
+) => {
   if (req.method !== 'POST') {
     return res
       .status(405)
@@ -83,7 +86,7 @@ const handler: NextApiHandler<
     city,
     latitude,
     longitude,
-  } = await ipgeo('179.215.126.112');
+  } = await ipgeo(req.socket.remoteAddress || '');
 
   const metadata: AnalyticsEventMetadata<T['metadata']['custom']> = {
     custom: customMetadata,
