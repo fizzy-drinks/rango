@@ -1,4 +1,4 @@
-import Game from '@components/Game';
+import Rango from '@components/Game/Rango';
 import StorageService from '@data/services/storage.service';
 import GuessResult from '@data/types/GuessResult';
 import { GetServerSideProps } from 'next';
@@ -27,7 +27,7 @@ const HomePage: FC<HomePageProps> = ({ guesses }) => {
         <h1 className='font-bold text-4xl mb-2'>Rango</h1>
         <p className='text-xl mb-2'>Adivinhe a comida</p>
       </header>
-      <Game preloadGuesses={guesses} />
+      <Rango preloadGuesses={guesses} />
     </div>
   );
 };
