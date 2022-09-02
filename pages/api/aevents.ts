@@ -1,4 +1,3 @@
-import { AxiosError } from 'axios';
 import getDbClient from 'data/services/getDbClient';
 import ipgeo from 'data/services/ipgeo';
 import ApiResponse from 'data/types/ApiResponse';
@@ -81,42 +80,33 @@ const handler: NextApiHandler<
 
   const db = await getDbClient();
 
-  try {
-    const {
-      country_code2: country,
-      state_prov: province,
+  const {
+    country_code2: country = '??',
+    state_prov: province = 'Unknown',
+    city = 'Unknown',
+    latitude = '0',
+    longitude = '0',
+  }: Partial<Awaited<ReturnType<typeof ipgeo>>> = await ipgeo(
+    req.headers['x-forwarded-for']?.toString() || ''
+  ).catch(() => ({}));
+  const metadata: AnalyticsEventMetadata<T['metadata']['custom']> = {
+    custom: customMetadata,
+    geo: {
+      country,
+      province,
       city,
-      latitude,
-      longitude,
-    } = await ipgeo(req.headers['x-forwarded-for']?.toString() || '');
-    const metadata: AnalyticsEventMetadata<T['metadata']['custom']> = {
-      custom: customMetadata,
-      geo: {
-        country,
-        province,
-        city,
-        coordinates: { lat: Number(latitude), lng: Number(longitude) },
-      },
-    };
+      coordinates: { lat: Number(latitude), lng: Number(longitude) },
+    },
+  };
 
-    const { rows: aevents } = await db.query<T, AEventInsertArgs<E>>(
-      `insert into aevents (session_id, event_type, metadata, date)
-      values ($1, $2, $3, $4)
-      returning *`,
-      [session_id, event_type, metadata, new Date()]
-    );
+  const { rows: aevents } = await db.query<T, AEventInsertArgs<E>>(
+    `insert into aevents (session_id, event_type, metadata, date)
+    values ($1, $2, $3, $4)
+    returning *`,
+    [session_id, event_type, metadata, new Date()]
+  );
 
-    res.send({ success: true, data: { aevents } });
-  } catch (err) {
-    if (err instanceof AxiosError) {
-      return res.status(500).send({
-        success: false,
-        message: err.response?.data,
-      });
-    } else {
-      return res.status(500).send({ success: false, message: err.toString() });
-    }
-  }
+  res.send({ success: true, data: { aevents } });
 };
 
 export default handler;
