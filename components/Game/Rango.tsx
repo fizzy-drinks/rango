@@ -1,4 +1,4 @@
-import GuessResult from '@data/types/GuessResult';
+import GuessResult from 'data/types/GuessResult';
 import { FC, useState } from 'react';
 import GuessInput from './GuessInput';
 import GuessList from './GuessList';

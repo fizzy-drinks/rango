@@ -1,6 +1,6 @@
-import foods from '@data/foods';
-import GuessResponse from '@data/types/GuessResponse';
-import GuessResult from '@data/types/GuessResult';
+import foods from 'data/foods';
+import GuessResponse from 'data/types/GuessResponse';
+import GuessResult from 'data/types/GuessResult';
 import axios from 'axios';
 import clsx from 'clsx';
 import { motion } from 'framer-motion';

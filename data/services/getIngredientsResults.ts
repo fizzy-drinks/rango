@@ -1,4 +1,4 @@
-import foods from '@data/foods';
+import foods from 'data/foods';
 
 const getIngredientsResults = (
   guessedFood: typeof foods[number],

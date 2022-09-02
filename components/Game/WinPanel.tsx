@@ -1,6 +1,6 @@
-import Button from '@components/styled/Button';
-import InlineLink from '@components/styled/InlineLink';
-import GuessResult from '@data/types/GuessResult';
+import Button from 'components/styled/Button';
+import InlineLink from 'components/styled/InlineLink';
+import GuessResult from 'data/types/GuessResult';
 import clsx from 'clsx';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FC, useState } from 'react';

@@ -1,9 +1,9 @@
-import foods from '@data/foods';
-import getIngredientsResults from '@data/services/getIngredientsResults';
-import getWotd from '@data/services/getWotd';
-import StorageService from '@data/services/storage.service';
-import GuessResponse from '@data/types/GuessResponse';
-import GuessResult from '@data/types/GuessResult';
+import foods from 'data/foods';
+import getIngredientsResults from 'data/services/getIngredientsResults';
+import getWotd from 'data/services/getWotd';
+import StorageService from 'data/services/storage.service';
+import GuessResponse from 'data/types/GuessResponse';
+import GuessResult from 'data/types/GuessResult';
 import { NextApiHandler } from 'next';
 import { Cookie } from 'next-cookie';
 

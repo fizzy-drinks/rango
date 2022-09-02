@@ -1,5 +1,5 @@
-import getWotd from '@data/services/getWotd';
-import ApiResponse from '@data/types/ApiResponse';
+import getWotd from 'data/services/getWotd';
+import ApiResponse from 'data/types/ApiResponse';
 import { add, eachDayOfInterval, sub } from 'date-fns';
 import { NextApiHandler } from 'next';
 

@@ -1,6 +1,6 @@
-import Rango from '@components/Game/Rango';
-import StorageService from '@data/services/storage.service';
-import GuessResult from '@data/types/GuessResult';
+import Rango from 'components/Game/Rango';
+import StorageService from 'data/services/storage.service';
+import GuessResult from 'data/types/GuessResult';
 import { GetServerSideProps } from 'next';
 import { useCookie } from 'next-cookie';
 import { NextSeo } from 'next-seo';

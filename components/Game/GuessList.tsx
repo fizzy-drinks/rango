@@ -1,4 +1,4 @@
-import GuessResult from '@data/types/GuessResult';
+import GuessResult from 'data/types/GuessResult';
 import clsx from 'clsx';
 import { motion } from 'framer-motion';
 import { FC } from 'react';

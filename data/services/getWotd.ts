@@ -1,4 +1,4 @@
-import foods from '@data/foods';
+import foods from 'data/foods';
 import shuffleWithSeed from './shuffleWithSeed';
 
 const getWotd = (date?: Date): typeof foods[number] => {
