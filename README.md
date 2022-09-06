@@ -2,6 +2,7 @@
 > Food guessing game inspired by Wordle
 
 [![Netlify Status](https://api.netlify.com/api/v1/badges/8cef2060-d234-4c5e-b465-802e487370d5/deploy-status)](https://app.netlify.com/sites/cerulean-shortbread-48e3cd/deploys)
+[![Maintainability](https://api.codeclimate.com/v1/badges/a9574e70af675cc08c92/maintainability)](https://codeclimate.com/github/fizzy-drinks/rango/maintainability)
 
 ## Running locally
 
