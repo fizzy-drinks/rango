@@ -1,8 +1,8 @@
-import foods from 'data/foods';
+import { Food } from 'data/types/Food';
 
 const getIngredientsResults = (
-  guessedFood: typeof foods[number],
-  wotd: typeof foods[number]
+  guessedFood: Food,
+  wotd: Food
 ): { name: string; correct: boolean }[] =>
   guessedFood.ingredients.map((ing) => ({
     name: ing,

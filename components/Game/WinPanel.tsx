@@ -1,42 +1,15 @@
-import Button from 'components/styled/Button';
-import InlineLink from 'components/styled/InlineLink';
 import GuessResult from 'data/types/GuessResult';
 import clsx from 'clsx';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FC, useState } from 'react';
 import { FaDiscord, FaGithubAlt } from 'react-icons/fa';
 import Twemoji from 'react-twemoji';
-import correctRatio from './helpers/correctRatio';
+import FooterLink from 'components/styled/FooterLink';
+import ShareButton from './ShareButton';
 
 const WinPanel: FC<{ guesses: GuessResult[] }> = ({ guesses }) => {
   const [winPanel, setWinPanel] = useState(true);
   const toggleWinPanel = () => setWinPanel((p) => !p);
-
-  const [shareTimeout, setShareTimeout] = useState(false);
-  const share = async () => {
-    const wotd = guesses.find((g) => g.result === 'jackpot');
-    if (!wotd) throw new Error('Cannot share before winning!');
-
-    const guessAsText = (guess: GuessResult) => {
-      if (guess.result === 'jackpot') return '🟩';
-
-      const r = correctRatio(guess);
-      return r >= 0.5 ? '🟨' : r > 0 ? '🟧' : '🟥';
-    };
-
-    navigator.clipboard.writeText(
-      `achei o rango de hoje em ${guesses.length} tentativas
-
-${guesses.map(guessAsText).join('')}
-
-sua vez: ${location.href}`
-    );
-
-    setShareTimeout(true);
-    setTimeout(() => {
-      setShareTimeout(false);
-    }, 1000);
-  };
 
   return (
     <motion.div
@@ -75,38 +48,20 @@ sua vez: ${location.href}`
                 exit={{ height: 0, opacity: 0 }}
                 className='mt-3 text-sm'
               >
-                <Button
-                  className='text-sm'
-                  onClick={share}
-                  disabled={shareTimeout}
-                >
-                  {shareTimeout ? '📄 Copiado' : '🔗 Compartilhar'}
-                </Button>
+                <ShareButton guesses={guesses} />
               </motion.aside>
             )}
           </AnimatePresence>
         </Twemoji>
       </motion.section>
       <motion.div layoutId='links' className='absolute bottom-0 right-0 m-3'>
-        <a
-          href='https://discord.gg/bJ7S3BbTAB'
-          target='_blank'
-          rel='noreferrer'
-        >
-          <InlineLink>
-            <FaDiscord /> Discord
-          </InlineLink>
-        </a>{' '}
+        <FooterLink href='https://discord.gg/bJ7S3BbTAB'>
+          <FaDiscord /> Discord
+        </FooterLink>{' '}
         |{' '}
-        <a
-          href='https://github.com/fizzy-drinks/rango'
-          target='_blank'
-          rel='noreferrer'
-        >
-          <InlineLink>
-            <FaGithubAlt /> Fonte
-          </InlineLink>
-        </a>
+        <FooterLink href='https://github.com/fizzy-drinks/rango'>
+          <FaGithubAlt /> Fonte
+        </FooterLink>
       </motion.div>
     </motion.div>
   );

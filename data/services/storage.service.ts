@@ -1,4 +1,5 @@
 import foods from 'data/foods';
+import { Food } from 'data/types/Food';
 import GuessResult from 'data/types/GuessResult';
 import { add, format } from 'date-fns';
 import { Cookie } from 'next-cookie';
@@ -19,7 +20,7 @@ const StorageService = {
 
     return guesses
       .map((guess) => foods.find((f) => f.name === guess))
-      .filter((food): food is typeof foods[number] => !!food)
+      .filter((food): food is Food => !!food)
       .map((food) => ({
         guess: food.name,
         ingredients: getIngredientsResults(food, wotd),

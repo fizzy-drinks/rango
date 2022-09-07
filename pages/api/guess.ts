@@ -1,49 +1,46 @@
-import foods from 'data/foods';
-import getIngredientsResults from 'data/services/getIngredientsResults';
-import getWotd from 'data/services/getWotd';
+import getGuessResult from 'data/services/getGuessResult';
 import StorageService from 'data/services/storage.service';
 import GuessResponse from 'data/types/GuessResponse';
 import GuessResult from 'data/types/GuessResult';
-import { NextApiHandler } from 'next';
+import { NextApiHandler, NextApiRequest, NextApiResponse } from 'next';
 import { Cookie } from 'next-cookie';
 
-const handler: NextApiHandler<GuessResponse> = (req, res) => {
-  if (req.method === 'POST') {
-    const { guess } = req.body as { guess?: string };
+const updateResponseCookie = (
+  req: NextApiRequest,
+  res: NextApiResponse,
+  result: GuessResult
+) => {
+  const cookie = Cookie.fromApiRoute(req, res);
+  const userGuesses = StorageService.getGuessesAtDate(new Date(), cookie);
+  StorageService.persist(new Date(), [...userGuesses, result], cookie);
+};
 
-    const guessedFood = foods.find(
-      (f) => f.name.toLowerCase() === guess?.toLowerCase()
-    );
+const POST: NextApiHandler<GuessResponse> = (req, res) => {
+  const { guess } = req.body as { guess?: string };
 
-    if (!guess || !guessedFood) {
-      return res.send({ success: false, message: 'Not a valid food' });
-    }
-
-    const wotd = getWotd();
-    const ingredients = getIngredientsResults(guessedFood, wotd);
-    const missing = wotd.ingredients.filter(
-      (ingredient) => !guessedFood.ingredients.includes(ingredient)
-    ).length;
-
-    const cookie = Cookie.fromApiRoute(req, res);
-    const userGuesses = StorageService.getGuessesAtDate(new Date(), cookie);
-    const result: GuessResult = {
-      guess,
-      result: wotd.name === guess ? 'jackpot' : 'wrong',
-      ingredients,
-      missing,
-    };
-
-    StorageService.persist(new Date(), [...userGuesses, result], cookie);
-
-    return res.send({
-      success: true,
-      data: result,
-    });
+  if (!guess) {
+    return res.send({ success: false, message: 'Not a valid food' });
   }
 
-  res.statusCode = 405;
-  res.send({ success: false, message: 'Method not allowed' });
+  const result = getGuessResult(guess);
+  updateResponseCookie(req, res, result);
+
+  return res.send({
+    success: true,
+    data: result,
+  });
+};
+
+const handler: NextApiHandler<GuessResponse> = (req, res) => {
+  const methods: Record<string, NextApiHandler> = { POST };
+
+  if (req.method && methods[req.method]) {
+    return methods[req.method](req, res);
+  } else {
+    return res
+      .status(405)
+      .send({ message: 'Method not allowed', success: false });
+  }
 };
 
 export default handler;
