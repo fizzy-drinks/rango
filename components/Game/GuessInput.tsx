@@ -1,58 +1,27 @@
-import foods from 'data/foods';
-import GuessResponse from 'data/types/GuessResponse';
 import GuessResult from 'data/types/GuessResult';
-import axios from 'axios';
-import clsx from 'clsx';
-import { motion } from 'framer-motion';
 import { FC, KeyboardEvent, useState } from 'react';
-import trackEvent from 'helpers/trackEvent';
+import { Food } from 'data/types/Food';
+import getSuggestions from './helpers/getSuggestions';
+import SuggestionList from './SuggestionList';
+import sendGuess from './helpers/sendGuess';
 
 const GuessInput: FC<{
   guesses: GuessResult[];
   onChange: (guesses: GuessResult[]) => void;
 }> = ({ guesses, onChange }) => {
   const [guessInputValue, setGuessInputValue] = useState('');
-  const [suggestions, setSuggestions] = useState<typeof foods>([]);
-
+  const [suggestions, setSuggestions] = useState<Food[]>([]);
   const [activeSuggestion, setActiveSuggestion] = useState(0);
 
   const updateGuess = (value: string) => {
     setGuessInputValue(value.toLowerCase());
-
-    const suggestions = foods
-      .filter(
-        (food) =>
-          food.name.includes(value.toLowerCase()) &&
-          !guesses.find(
-            (g) => g.guess.toLowerCase() === food.name.toLowerCase()
-          )
-      )
-      .sort((a, b) => a.name.indexOf(value) - b.name.indexOf(value))
-      .slice(0, 5)
-      .reverse();
-
-    setSuggestions(suggestions);
+    setSuggestions(getSuggestions(guesses, value));
     setActiveSuggestion(Math.max(0, suggestions.length - 1));
   };
 
   const guessFood = async (guess: string) => {
-    const { data: res } = await axios.post<GuessResponse>('/api/guess', {
-      guess,
-    });
-
-    if (!res.success) return;
-
-    trackEvent({
-      event_type: 'game-interaction',
-      metadata: {
-        interactionType: 'guess',
-        value: res.data,
-      },
-    });
-
     setSuggestions([]);
-
-    const guessResult = res.data;
+    const guessResult = await sendGuess(guess);
     onChange([...guesses, guessResult]);
     setGuessInputValue('');
   };
@@ -78,30 +47,13 @@ const GuessInput: FC<{
 
   return (
     <>
-      <ul className='w-full'>
-        {suggestions.map((sug, i) => (
-          <motion.li key={sug.name} layoutId={sug.name}>
-            <button
-              onClick={() => guessFood(sug.name)}
-              onMouseOver={() => setActiveSuggestion(i)}
-              className={clsx('w-full text-left p-1 border-b', {
-                'bg-slate-500': activeSuggestion === i,
-              })}
-            >
-              {sug.name.slice(0, sug.name.indexOf(guessInputValue))}
-              <strong>
-                {sug.name.slice(
-                  sug.name.indexOf(guessInputValue),
-                  sug.name.indexOf(guessInputValue) + guessInputValue.length
-                )}
-              </strong>
-              {sug.name.slice(
-                sug.name.indexOf(guessInputValue) + guessInputValue.length
-              )}
-            </button>
-          </motion.li>
-        ))}
-      </ul>
+      <SuggestionList
+        suggestions={suggestions}
+        highlight={guessInputValue}
+        activeSuggestion={activeSuggestion}
+        onSuggestionHover={setActiveSuggestion}
+        onSelect={guessFood}
+      />
       <input
         className='p-1 bg-slate-50 text-slate-900 text-sm text-semibold'
         placeholder='ex. pastel de frango'

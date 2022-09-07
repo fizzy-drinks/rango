@@ -1,8 +1,9 @@
 import foods from 'data/foods';
+import { Food } from 'data/types/Food';
 import getConfig from 'next/config';
 import shuffleWithSeed from './shuffleWithSeed';
 
-const getWotd = (date?: Date): typeof foods[number] => {
+const getWotd = (date?: Date): Food => {
   const dateMs = date ? date.valueOf() : Date.now();
   const epochDays = Math.floor(dateMs / 1000 / 3600 / 24);
 
