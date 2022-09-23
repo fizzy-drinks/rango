@@ -413,6 +413,7 @@ const foods: Food[] = [
       Ingredient.SALSINHA,
       Ingredient.CEBOLINHA,
       Ingredient.CEBOLA,
+      Ingredient.CARNE_BOVINA,
     ],
   },
   {
