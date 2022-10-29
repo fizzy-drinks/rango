@@ -20,7 +20,7 @@ plugins:
   - '@typescript-eslint'
   - prettier
 rules:
-  prettier/prettier: [2, { singleQuote: true, jsxSingleQuote: true }]
+  prettier/prettier: [1, { singleQuote: true, jsxSingleQuote: true }]
   react/jsx-uses-react: 2
   react/react-in-jsx-scope: 0
   import/no-unresolved: 0
