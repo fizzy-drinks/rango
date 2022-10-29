@@ -24,6 +24,7 @@ const GuessInput: FC<{
     const guessResult = await sendGuess(guess);
     onChange([...guesses, guessResult]);
     setGuessInputValue('');
+    setActiveSuggestion(0);
   };
 
   const kbdAction = (event: KeyboardEvent<HTMLInputElement>) => {
